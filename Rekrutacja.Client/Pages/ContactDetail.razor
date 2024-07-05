@@ -31,7 +31,7 @@ else
     </div>
     <div class="row">
         <div class="col-sm-4">Rodzaj kontaktu:</div>
-        <div class="col-sm">@Contact.Category.Name</div>
+        <div class="col-sm">@Contact.Category?.Name</div>
     </div>
     @if(@Contact.Subcategory != null)
     {

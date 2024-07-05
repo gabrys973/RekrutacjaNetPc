@@ -49,7 +49,7 @@
                         <td><a href="" @onclick="() => ShowContactDetails(contact.Id)" @onclick:preventDefault>@contact.Name</a></td>
                         <td>@contact.Surname</td>
                         <td>@contact.PhoneNumber</td>
-                        <td>@contact.Category.Name</td>
+                        <td>@contact.Category?.Name</td>
                         <AuthorizeView>
                             <Authorized>
                                 <td style="text-align:center">
