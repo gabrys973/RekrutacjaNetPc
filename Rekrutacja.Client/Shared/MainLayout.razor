@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Rekrutacja.Client</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <AuthorizeView>
+            <Authorized>
+                <div class="top-row px-4">
+                    <a href="logout" target="_blank">Logout</a>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="top-row px-4">
+                    <a href="login" target="_blank">Login</a>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+        
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

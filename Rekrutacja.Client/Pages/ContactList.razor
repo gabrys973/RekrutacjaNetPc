@@ -1,0 +1,114 @@
+﻿@page "/"
+
+<h3>Lista kontaktów</h3>
+
+<Modal @ref="modal">
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="CloseContactDetails">Close</Button>
+    </FooterTemplate>
+</Modal>
+
+<Modal @ref="deleteModal">
+    <BodyTemplate>
+        <div style="text-align:center"><Icon Name="IconName.Trash" Size="IconSize.x1" Color="IconColor.Danger" /></div>
+        <div style="text-align:center">Czy na pewno chcesz usunąć kontakt?</div>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" Size="Size.Medium" @onclick="CloseDeletingModal">Nie</Button>
+        <Button Color="ButtonColor.Danger" Size="Size.Medium" @onclick="ConfirmDeletingModal">Tak</Button>
+    </FooterTemplate>
+</Modal>
+
+<AuthorizeView>
+    <Authorized>
+        <Button Color="ButtonColor.Primary" Size="Size.Small" @onclick="ShowAddingModal">Nowy kontakt</Button>
+    </Authorized>
+</AuthorizeView>
+
+<div class="row">
+    @if(Contacts.Any())
+    {
+        <table id="customers">
+            <thead>
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Email</th>
+                    <th>Kategoria</th>
+                    <AuthorizeView>
+                        <Authorized>
+                            <th></th>
+                        </Authorized>
+                    </AuthorizeView>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var contact in Contacts)
+                {
+                    <tr>
+                        <td><a href="" @onclick="() => ShowContactDetails(contact.Id)" @onclick:preventDefault>@contact.Name</a></td>
+                        <td>@contact.Surname</td>
+                        <td>@contact.PhoneNumber</td>
+                        <td>@contact.Category.Name</td>
+                        <AuthorizeView>
+                            <Authorized>
+                                <td style="text-align:center">
+                                    <Button Color="ButtonColor.Success" Size="Size.ExtraSmall">Edytuj</Button>
+                                    <Button Color="ButtonColor.Danger" Size="Size.ExtraSmall" @onclick="() => ShowDeletingModal(contact.Id)">Usuń</Button>
+                                </td>
+                            </Authorized>
+                        </AuthorizeView>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private Modal modal = default!;
+    private Modal deleteModal = default!;
+    @inject NavigationManager NavigationManager;
+
+    private async Task ShowContactDetails(int id)
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("ContactId", id);
+        await modal.ShowAsync<ContactDetail>(title: "Szczegóły kontaktu", parameters: parameters);
+    }
+
+    private async Task CloseContactDetails()
+    {
+        await modal.HideAsync();
+    }
+
+    private async Task ShowAddingModal()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("ContactId", 1);
+        await modal.ShowAsync<ContactDetail>(title: "Szczegóły kontaktu", parameters: parameters);
+    }
+
+    private async Task CloseAddingModal()
+    {
+        await modal.HideAsync();
+    }
+
+    private async Task ShowDeletingModal(int id)
+    {
+        DeleteContactId = id;
+        await deleteModal.ShowAsync();
+    }
+
+    private async Task ConfirmDeletingModal()
+    {
+        await DeleteAsync();
+        await deleteModal.HideAsync();
+        this.NavigationManager.NavigateTo("", true);
+    }
+
+    private async Task CloseDeletingModal()
+    {
+        await deleteModal.HideAsync();
+    }
+}

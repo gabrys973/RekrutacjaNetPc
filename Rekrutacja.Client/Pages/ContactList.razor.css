@@ -1,0 +1,22 @@
+﻿#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+}
+
+    #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+        background-color: #ddd;
+    }
+
+th {
+    background-image: linear-gradient(blue, indigo);
+    color: white;
+}
