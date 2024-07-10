@@ -45,6 +45,7 @@ Migracje z projektu Rekrutacja.Server również można odpalić na dwa sposoby z
   - Blazor.Bootstrap
   - IdentityModel
   - Microsoft.AspNetCore.Authentication.OpenIdConnect
+  - Newtonsoft.Json
 
 3. Serwer autoryzacyjny:
   - IdentityServer4 oraz powiązane z nim dodatkowe biblioteki
