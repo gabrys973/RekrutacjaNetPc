@@ -1,4 +1,4 @@
-﻿namespace Rekrutacja.Api.Services;
+﻿namespace Rekrutacja.Api.Services.PasswordsHasher;
 
 public interface IPasswordHasher
 {

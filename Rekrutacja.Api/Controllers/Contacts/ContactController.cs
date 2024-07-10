@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Rekrutacja.Api.Services;
+using Rekrutacja.Api.Services.PasswordsHasher;
+using Rekrutacja.Application.Dtos.Contacts;
 using Rekrutacja.Application.Helpers.Contacts;
 using Rekrutacja.Application.Mappers.Contacts;
 using Rekrutacja.Application.Requests.Contacts;
@@ -26,9 +27,13 @@ public class ContactController : ControllerBase
     {
         var contacts = await _repository.GetAllContacts(query);
 
-        var contactsDto = contacts.Select(x => x.ToContactDto());
+        var contactsDto = contacts.Select(x => x.ToContactDto()).ToList();
 
-        return Ok(contactsDto);
+        var contactsCount = await _repository.GetCountAsync();
+
+        var contactList = new ContactListDto(contactsDto, query.PageSize, query.PageNumber, contactsCount);
+
+        return Ok(contactList);
     }
 
     [HttpGet("{id:int}")]

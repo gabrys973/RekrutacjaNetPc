@@ -65,7 +65,7 @@ namespace Rekrutacja.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("CustomSubcategory")
@@ -201,7 +201,9 @@ namespace Rekrutacja.Infrastructure.Migrations
                 {
                     b.HasOne("Rekrutacja.Domain.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Rekrutacja.Domain.Entities.Subcategory", "Subcategory")
                         .WithMany()

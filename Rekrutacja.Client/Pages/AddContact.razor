@@ -1,0 +1,130 @@
+﻿@page "/dodaj-kontakt"
+@attribute [Authorize]
+
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="5000" Placement="ToastsPlacement.TopRight" />
+
+<h3>Nowy kontakt</h3>
+
+<EditForm Model="@ContactRequest" OnValidSubmit="@AddContactAsync" id="add-form">
+    <DataAnnotationsValidator />
+    <div class="form-group m-3">
+        <label class="form-label">Imię</label>
+        <InputText class="form-control border-2 rounded-sm w-25" @bind-Value="@ContactRequest.Name" />
+        <ValidationMessage For="@(() => ContactRequest.Name)" />
+    </div>
+    <div class="form-group m-3">
+        <label class="form-label">Nazwisko</label>
+        <InputText class="form-control border-2 rounded-sm w-25" @bind-Value="@ContactRequest.Surname" />
+        <ValidationMessage For="@(() => ContactRequest.Surname)" />
+    </div>
+    <div class="form-group m-3">
+        <label class="form-label">E-mail</label>
+        <InputText class="form-control border-2 rounded-sm w-25" @bind-Value="@ContactRequest.Email" />
+        <ValidationMessage For="@(() => ContactRequest.Email)" />
+    </div>
+    <div class="form-group m-3">
+        <label class="form-label">Hasło</label>
+        <div class="row">
+            <div class="col-1 w-25">
+                <InputText class="form-control border-2 rounded-sm w-100" type="@(ShowPassword ? "text" : "password")" @bind-Value="@ContactRequest.Password" />
+                <ValidationMessage For="@(() => ContactRequest.Password)" />
+            </div>
+            <div class="col-1">
+                <button class="btn btn-primary" @onclick="ToggleShowPassword">
+                    @if(@ShowPassword)
+                    {
+                        <Icon Name="IconName.EyeSlash"></Icon>
+                    }
+                    else
+                    {
+                        <Icon Name="IconName.Eye"></Icon>
+                    }
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group m-3">
+        <label class="form-label">Numer telefonu</label>
+        <InputText class="form-control border-2 rounded-sm w-25" @bind-Value="@ContactRequest.PhoneNumber" />
+        <ValidationMessage For="@(() => ContactRequest.PhoneNumber)" />
+    </div>
+    <div class="form-group m-3">
+        <label class="form-label">Data urodzenia</label>
+        <InputDate class="form-control border-2 rounded-sm w-25" @bind-Value="@ContactRequest.DateOfBirth" />
+        <ValidationMessage For="@(() => ContactRequest.DateOfBirth)" />
+    </div>
+    @if(Categories != null && Categories.Any())
+    {
+        <div class="form-group m-3">
+            <label class="form-label">Rodzaj kontaktu</label>
+            <InputSelect class="form-select border-2 rounded-sm w-25" ValueExpression="@(()=>ContactRequest.CategoryId)"
+                         Value="@ContactRequest.CategoryId" ValueChanged="@((int value) => OnValueChanged(value))">
+                @foreach(var category in Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+        </div>
+    }
+
+    @if(Subcategories != null && Subcategories.Any())
+    {
+        <div class="form-group m-3">
+            <label class="form-label">Stanowisko</label>
+            <InputSelect class="form-select border-2 rounded-sm w-25" @bind-Value="@ContactRequest.SubcategoryId" disabled="@IsSubcategoryDisabled">
+                @if(ContactRequest.SubcategoryId is null)
+                {
+                    <option selected value=null></option>
+                }
+                @foreach(var subcategory in Subcategories)
+                {
+                    <option value="@subcategory.Id">@subcategory.Name</option>
+                }
+            </InputSelect>
+        </div>
+    }
+
+    <div class="form-group m-3">
+        <label class="form-label">Dodatkowy opis</label>
+        <InputText class="form-control border-2 rounded-sm w-25" @bind-Value="@ContactRequest.CustomSubcategory" Disabled="@IsCustomSubcategoryDisabled" />
+        <ValidationMessage For="@(() => ContactRequest.CustomSubcategory)" />
+    </div>
+    <button class="btn btn-primary" type="submit">Dodaj</button>
+</EditForm>
+
+@code {
+    private bool IsSubcategoryDisabled { get; set; } = true;
+    private bool IsCustomSubcategoryDisabled { get; set; } = true;
+    private bool ShowPassword = false;
+
+    private void OnValueChanged(int value)
+    {
+        ContactRequest.CategoryId = value;
+
+        if(ContactRequest.CategoryId == 1)
+        {
+            IsSubcategoryDisabled = false;
+            ContactRequest.CustomSubcategory = null;
+            IsCustomSubcategoryDisabled = true;
+        }
+        else if(ContactRequest.CategoryId == 3)
+        {
+            IsCustomSubcategoryDisabled = false;
+            ContactRequest.SubcategoryId = null;
+            IsSubcategoryDisabled = true;
+        }
+        else
+        {
+            IsSubcategoryDisabled = true;
+            IsCustomSubcategoryDisabled = true;
+            ContactRequest.SubcategoryId = null;
+            ContactRequest.CustomSubcategory = null;
+        }
+    }
+
+    private void ToggleShowPassword()
+    {
+        ShowPassword = !ShowPassword;
+    }
+}

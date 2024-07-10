@@ -1,0 +1,31 @@
+﻿<Modal @ref="detailModal">
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="CloseContactDetailsModal">Zamknij</Button>
+    </FooterTemplate>
+</Modal>
+
+<Modal @ref="deleteModal">
+    <BodyTemplate>
+        <div style="text-align:center"><Icon Name="IconName.Trash" Size="IconSize.x1" Color="IconColor.Danger" /></div>
+        <div style="text-align:center">Czy na pewno chcesz usunąć kontakt?</div>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" Size="Size.Medium" @onclick="CloseDeletingModal">Nie</Button>
+        <Button Color="ButtonColor.Danger" Size="Size.Medium" @onclick="ConfirmDeletingModal">Tak</Button>
+    </FooterTemplate>
+</Modal>
+
+<tr class="contacts">
+    <td> <a href="" @onclick="() => ShowContactDetailsModal(Contact.Id)" @onclick:preventDefault>@Contact.Name</a></td>
+    <td>@Contact.Surname</td>
+    <td>@Contact.PhoneNumber</td>
+    <td>@Contact.Category.Name</td>
+    <AuthorizeView>
+        <Authorized>
+            <td style="text-align:center">
+                <Button Color="ButtonColor.Success" Size="Size.ExtraSmall" @onclick="GoToEditingPage">Edytuj</Button>
+                <Button Color="ButtonColor.Danger" Size="Size.ExtraSmall" @onclick="ShowDeletingModal">Usuń</Button>
+            </td>
+        </Authorized>
+    </AuthorizeView>
+</tr>

@@ -5,7 +5,7 @@ using Rekrutacja.Infrastructure.Repositories;
 
 namespace Rekrutacja.Api.Controllers.Subcategories;
 
-[Route("api/categories/{id:int}/subcategory")]
+[Route("api/categories/{id:int}/subcategories")]
 [ApiController]
 public class SubcategoryController : ControllerBase
 {

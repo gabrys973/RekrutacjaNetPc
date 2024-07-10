@@ -54,7 +54,7 @@ namespace Rekrutacja.Infrastructure.Migrations
                     Password = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     SubcategoryId = table.Column<int>(type: "int", nullable: true),
                     CustomSubcategory = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true)
                 },
@@ -65,7 +65,8 @@ namespace Rekrutacja.Infrastructure.Migrations
                         name: "FK_Contact_Category_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Category",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Contact_Subcategory_SubcategoryId",
                         column: x => x.SubcategoryId,

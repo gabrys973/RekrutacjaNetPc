@@ -1,40 +1,57 @@
 ﻿@page "/"
 
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
 <h3>Lista kontaktów</h3>
 
-<Modal @ref="modal">
-    <FooterTemplate>
-        <Button Color="ButtonColor.Secondary" @onclick="CloseContactDetails">Close</Button>
-    </FooterTemplate>
-</Modal>
+<div style="margin-bottom: 10px;">
+    <AuthorizeView>
+        <Authorized>
+            <Button Color="ButtonColor.Primary" @onclick="GoToAddingPage"> Dodaj kontakt </Button>
+        </Authorized>
+    </AuthorizeView>
+</div>
 
-<Modal @ref="deleteModal">
-    <BodyTemplate>
-        <div style="text-align:center"><Icon Name="IconName.Trash" Size="IconSize.x1" Color="IconColor.Danger" /></div>
-        <div style="text-align:center">Czy na pewno chcesz usunąć kontakt?</div>
-    </BodyTemplate>
-    <FooterTemplate>
-        <Button Color="ButtonColor.Secondary" Size="Size.Medium" @onclick="CloseDeletingModal">Nie</Button>
-        <Button Color="ButtonColor.Danger" Size="Size.Medium" @onclick="ConfirmDeletingModal">Tak</Button>
-    </FooterTemplate>
-</Modal>
-
-<AuthorizeView>
-    <Authorized>
-        <Button Color="ButtonColor.Primary" Size="Size.Small" @onclick="ShowAddingModal">Nowy kontakt</Button>
-    </Authorized>
-</AuthorizeView>
+<div style="row">
+    <div class="column">
+        <input type="text" @bind="@ContactQuery.Name" class="form-control mb-2 mr-sm-2" placeholder="Imię" />
+    </div>
+    <div class="column">
+        <input type="text" @bind="@ContactQuery.Surname" class="form-control mb-2 mr-sm-2" placeholder="Nazwisko" />
+    </div>
+    <div class="column">
+        <input type="text" @bind="@ContactQuery.PhoneNumber" class="form-control mb-2 mr-sm-2" placeholder="Numer telefonu" />
+    </div>
+    @if(Categories != null && Categories.Any())
+    {
+        <div class="column">
+            <select class="form-select mb-2 mr-sm-2" @bind="@ContactQuery.CategoryId">
+                @if(@ContactQuery.CategoryId == null)
+                {
+                    <option disabled hidden selected value="null">Rodzaj kontaktu</option>
+                }
+                <option value="">-</option>
+                @foreach(var category in Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
+    }
+</div>
+<Button Color="ButtonColor.Primary" @onclick="OnFilterAsync">Szukaj</Button>
+<Button Color="ButtonColor.Danger" @onclick="OnClearFiltersAsync">Wyczyść</Button>
 
 <div class="row">
-    @if(Contacts.Any())
+    @if(ContactsDto != null && ContactsDto.Contacts.Any())
     {
-        <table id="customers">
+        <table id="contacts">
             <thead>
                 <tr>
                     <th>Imię</th>
                     <th>Nazwisko</th>
-                    <th>Email</th>
-                    <th>Kategoria</th>
+                    <th>Numer telefonu</th>
+                    <th>Rodzaj kontaktu</th>
                     <AuthorizeView>
                         <Authorized>
                             <th></th>
@@ -43,72 +60,33 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var contact in Contacts)
-                {
-                    <tr>
-                        <td><a href="" @onclick="() => ShowContactDetails(contact.Id)" @onclick:preventDefault>@contact.Name</a></td>
-                        <td>@contact.Surname</td>
-                        <td>@contact.PhoneNumber</td>
-                        <td>@contact.Category?.Name</td>
-                        <AuthorizeView>
-                            <Authorized>
-                                <td style="text-align:center">
-                                    <Button Color="ButtonColor.Success" Size="Size.ExtraSmall">Edytuj</Button>
-                                    <Button Color="ButtonColor.Danger" Size="Size.ExtraSmall" @onclick="() => ShowDeletingModal(contact.Id)">Usuń</Button>
-                                </td>
-                            </Authorized>
-                        </AuthorizeView>
-                    </tr>
+                @foreach(var contact in ContactsDto.Contacts)
+                {   // wywołanie komponentu oraz przechwycenie eventów usunięcia kontaktu
+                    <ContactListDetail Contact="contact" OnContactDeleted="ContactDeletedEvent" OnContactDeletedError="ContactDeletedErrorEvent"></ContactListDetail>
                 }
             </tbody>
         </table>
+        <div class="row">
+            <div class="left"></div>
+            <div class="column">
+                <Pagination ActivePageNumber="@ContactQuery.PageNumber"
+                            TotalPages="@TotalPages"
+                            DisplayPages="5"
+                            Alignment="Alignment.End"
+                            FirstLinkIcon="IconName.ChevronDoubleLeft"
+                            PreviousLinkIcon="IconName.ChevronLeft"
+                            NextLinkIcon="IconName.ChevronRight"
+                            LastLinkIcon="IconName.ChevronDoubleRight"
+                            PageChanged="OnPageChangedAsync" />
+            </div>
+            <div class="column">
+                <select class="custom-select" @onchange="OnPageSizeChangedAsync">
+                    <option value="5">5</option>
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
     }
 </div>
-
-@code {
-    private Modal modal = default!;
-    private Modal deleteModal = default!;
-    @inject NavigationManager NavigationManager;
-
-    private async Task ShowContactDetails(int id)
-    {
-        var parameters = new Dictionary<string, object>();
-        parameters.Add("ContactId", id);
-        await modal.ShowAsync<ContactDetail>(title: "Szczegóły kontaktu", parameters: parameters);
-    }
-
-    private async Task CloseContactDetails()
-    {
-        await modal.HideAsync();
-    }
-
-    private async Task ShowAddingModal()
-    {
-        var parameters = new Dictionary<string, object>();
-        parameters.Add("ContactId", 1);
-        await modal.ShowAsync<ContactDetail>(title: "Szczegóły kontaktu", parameters: parameters);
-    }
-
-    private async Task CloseAddingModal()
-    {
-        await modal.HideAsync();
-    }
-
-    private async Task ShowDeletingModal(int id)
-    {
-        DeleteContactId = id;
-        await deleteModal.ShowAsync();
-    }
-
-    private async Task ConfirmDeletingModal()
-    {
-        await DeleteAsync();
-        await deleteModal.HideAsync();
-        this.NavigationManager.NavigateTo("", true);
-    }
-
-    private async Task CloseDeletingModal()
-    {
-        await deleteModal.HideAsync();
-    }
-}

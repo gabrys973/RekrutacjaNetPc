@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Rekrutacja.Client.Services;
+using Rekrutacja.Client.Services.Categories;
+using Rekrutacja.Client.Services.Contacts;
+using Rekrutacja.Client.Services.Identity;
+using Rekrutacja.Client.Services.Subcategories;
 
 namespace Rekrutacja.Client;
 
@@ -17,6 +20,9 @@ public class Program
 
         builder.Services.Configure<IdentityServerSettings>(builder.Configuration.GetSection("IdentityServerSettings"));
         builder.Services.AddScoped<ITokenService, TokenService>();
+        builder.Services.AddScoped<IContactService, ContactService>();
+        builder.Services.AddScoped<ICategoryService, CategoryService>();
+        builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
 
         builder.Services.AddAuthentication(options =>
         {

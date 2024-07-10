@@ -1,7 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Rekrutacja.Api.Services;
+using Rekrutacja.Api.Services.PasswordsHasher;
 using Rekrutacja.Application.Requests.Contacts;
 using Rekrutacja.Application.Validators.Contacts;
 using Rekrutacja.Infrastructure.DataAccess;

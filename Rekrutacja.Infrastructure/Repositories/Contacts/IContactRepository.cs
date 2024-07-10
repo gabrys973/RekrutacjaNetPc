@@ -14,4 +14,6 @@ public interface IContactRepository : IRepository<Contact>
     Task<Contact?> EditAsync(int id, Contact contact);
 
     Task<Contact?> DeleteAsync(int id);
+
+    Task<int> GetCountAsync();
 }

@@ -10,7 +10,7 @@ public static class ContactMappers
 {
     public static ContactDto ToContactDto(this Contact contact)
     {
-        return new ContactDto(contact.Id, contact.Name, contact.Surname, contact.Email, contact.PhoneNumber, contact.DateOfBirth, contact.Category?.ToCategoryDto(), contact.Subcategory?.ToSubcategoryDto(), contact.CustomSubcategory);
+        return new ContactDto(contact.Id, contact.Name, contact.Surname, contact.Email, contact.PhoneNumber, contact.DateOfBirth, contact.Category.ToCategoryDto(), contact.Subcategory?.ToSubcategoryDto(), contact.CustomSubcategory);
     }
 
     public static Contact ToContactFromRequests(this ContactRequest contact)

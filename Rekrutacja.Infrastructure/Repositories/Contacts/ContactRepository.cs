@@ -100,4 +100,9 @@ public class ContactRepository : Repository<Contact>, IContactRepository
 
         return contact;
     }
+
+    public async Task<int> GetCountAsync()
+    {
+        return await GetAll().CountAsync();
+    }
 }

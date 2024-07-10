@@ -13,6 +13,7 @@ public class ContactRequestValidator : AbstractValidator<ContactRequest>
         RuleFor(contact => contact.Password).SetValidator(new PassWordValidator());
         RuleFor(contact => contact.PhoneNumber).NotEmpty().MaximumLength(20);
         RuleFor(contact => contact.DateOfBirth).NotEmpty().LessThan(DateTime.Today);
+        RuleFor(contact => contact.CategoryId).NotEmpty();
         // podkategoria powinna być możliwa do wyboru tylko wtedy, kiedy id kategorii = 1 (Służbowy)
         RuleFor(contact => contact.SubcategoryId).Empty().When(contact => contact.CategoryId != 1).WithMessage("Subcategory Id must be empty when Category Id different than 1");
         // podkategoria wpisywana ręcznie powinna być możliwa do wyboru tylko wtedy, kiedy id kategorii = 3 (Inny)
@@ -29,7 +30,7 @@ public class ContactRequestValidator : AbstractValidator<ContactRequest>
                 .Matches(@"[A-Z]+").WithMessage("Your password must contain at least one uppercase letter.")
                 .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
                 .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.")
-                .Matches(@"[\!\?\*\.]+").WithMessage("Your password must contain at least one (!? *.).");
+                .Matches(@"[!@#$%^&*\(\)_\+\-\={}<>,\.\|""'~`:;\\?\/\[\]]").WithMessage("Your password must contain at least one special character.");
         }
     }
 }

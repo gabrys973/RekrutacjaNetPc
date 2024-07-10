@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Rekrutacja.Api.Services;
+namespace Rekrutacja.Api.Services.PasswordsHasher;
 
 internal class PasswordHasher : IPasswordHasher
 {

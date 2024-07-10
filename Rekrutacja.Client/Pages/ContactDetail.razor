@@ -1,7 +1,4 @@
-﻿@using Rekrutacja.Application.Dtos.Contacts
-@using Rekrutacja.Client.Services
-
-@if(@Contact is null)
+﻿@if(@Contact is null)
 {
     <div class="row">
         <div class="col-sm">Brak Danych</div>
@@ -18,7 +15,7 @@ else
         <div class="col-sm">@Contact.Surname</div>
     </div>
     <div class="row">
-        <div class="col-sm-4">Email:</div>
+        <div class="col-sm-4">E-mail:</div>
         <div class="col-sm">@Contact.Email</div>
     </div>
     <div class="row">
@@ -36,32 +33,15 @@ else
     @if(@Contact.Subcategory != null)
     {
         <div class="row">
-            <div class="col-sm-4">Dodatkowy opis:</div>
+            <div class="col-sm-4">Stanowisko:</div>
             <div class="col-sm">@Contact.Subcategory.Name</div>
         </div>
     }
     else if(!string.IsNullOrEmpty(@Contact.CustomSubcategory))
     {
         <div class="row">
-            <div class="col-sm-4">Stanowisko:</div>
+            <div class="col-sm-4">Dodatkowy opis:</div>
             <div class="col-sm">@Contact.CustomSubcategory</div>
         </div>
-    }
-}
-
-@code {
-    private ContactDto Contact;
-    [Inject] private HttpClient HttpClient { get; set; }
-    [Inject] private IConfiguration Configuration { get; set; }
-    [Parameter] public int ContactId { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var result = await HttpClient.GetAsync(Configuration["apiUrl"] + $"/api/contacts/{ContactId}");
-
-        if(result.IsSuccessStatusCode)
-        {
-            Contact = await result.Content.ReadFromJsonAsync<ContactDto>();
-        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Rekrutacja.Client.Services;
+﻿namespace Rekrutacja.Client.Services.Identity;
 
 public class IdentityServerSettings
 {

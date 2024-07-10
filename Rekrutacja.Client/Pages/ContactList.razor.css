@@ -1,22 +1,54 @@
-﻿#customers {
+﻿#contacts {
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-    #customers td, #customers th {
+    #contacts td, #contacts th {
         border: 1px solid #ddd;
         padding: 8px;
     }
 
-    #customers tr:nth-child(even) {
+    #contacts tr:nth-child(even) {
         background-color: #f2f2f2;
     }
 
-    #customers tr:hover {
+    #contacts tr:hover {
         background-color: #ddd;
     }
 
 th {
     background-image: linear-gradient(blue, indigo);
     color: white;
+}
+
+.row {
+    text-align: center;
+    width: 100%;
+}
+
+.left {
+    width: 35%;
+}
+
+.column {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: auto;
+    float: left;
+}
+
+.custom-select {
+    min-height: 38px;
+    max-width: 50px;
+}
+
+select {
+    width: 100%;
+    font-size: 1.15rem;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
 }

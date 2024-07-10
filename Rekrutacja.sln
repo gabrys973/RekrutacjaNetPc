@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rekrutacja.Application", "R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rekrutacja.Client", "Rekrutacja.Client\Rekrutacja.Client.csproj", "{2DB90F54-C7E7-4489-ABB8-DFFCD6CF67BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rekrutacja.Server", "Rekrutacja.Server\Rekrutacja.Server.csproj", "{BA3DA8A9-095D-47AB-AB71-EEE71FF7ABF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rekrutacja.Server", "Rekrutacja.Server\Rekrutacja.Server.csproj", "{BA3DA8A9-095D-47AB-AB71-EEE71FF7ABF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

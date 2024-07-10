@@ -1,6 +1,6 @@
-﻿using Rekrutacja.Application.Dtos.Subcategories;
+﻿using Rekrutacja.Client.Models.Dtos.Subcategories;
 
-namespace Rekrutacja.Application.Dtos.Categories;
+namespace Rekrutacja.Client.Models.Dtos.Categories;
 
 public class CategoryDto
 {

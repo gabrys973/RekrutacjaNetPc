@@ -1,4 +1,4 @@
-﻿namespace Rekrutacja.Application.Helpers.Contacts;
+﻿namespace Rekrutacja.Client.Models.Helpers.Contacts;
 
 public class QueryContactHelper
 {
