@@ -33,6 +33,10 @@ Migracje z projektu Rekrutacja.Server również można odpalić na dwa sposoby z
   - Rekrutacja.Api
   - Rekrutacja.Client
 
+4. W bazie jest stworzony domyślnie użytkownik o danych:
+   - login: user
+   - hasło: Password123!
+
 ### Wykorzystane biblioteki
 
 1. API oraz biblioteki z nim powiązane (Rekrutacja.Application, Rekrutacja.Domain, Rekrutacja.Infrastructure)
@@ -45,6 +49,7 @@ Migracje z projektu Rekrutacja.Server również można odpalić na dwa sposoby z
   - Blazor.Bootstrap
   - IdentityModel
   - Microsoft.AspNetCore.Authentication.OpenIdConnect
+  - Newtonsoft.Json
 
 3. Serwer autoryzacyjny:
   - IdentityServer4 oraz powiązane z nim dodatkowe biblioteki
