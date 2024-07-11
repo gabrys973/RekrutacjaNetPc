@@ -28,7 +28,7 @@ public partial class EditContact : ComponentBase
     private NavigationManager NavManager { get; set; }
 
     private ContactDto Contact;
-    private readonly List<ToastMessage> _messages = new();
+    private List<ToastMessage> _messages = new();
     private ContactRequestModel ContactRequest { get; set; }
     private List<CategoryDto> Categories { get; set; }
     private List<SubcategoryDto> Subcategories { get; set; }

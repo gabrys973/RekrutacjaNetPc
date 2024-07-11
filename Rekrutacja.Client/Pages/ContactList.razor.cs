@@ -23,7 +23,7 @@ public partial class ContactList : ComponentBase
     private ICategoryService CategoryService { get; set; }
 
     private ContactListDto ContactsDto { get; set; }
-    private readonly List<ToastMessage> _messages = new();
+    private List<ToastMessage> _messages = new();
     private int TotalPages { get; set; }
     private QueryContactHelper ContactQuery { get; set; } = new();
     private List<CategoryDto> Categories { get; set; }

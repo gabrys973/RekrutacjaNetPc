@@ -23,7 +23,7 @@ public partial class AddContact : ComponentBase
     [Inject]
     private NavigationManager NavManager { get; set; }
 
-    private readonly List<ToastMessage> _messages = new();
+    private List<ToastMessage> _messages = new();
     private ContactRequestModel ContactRequest { get; set; } = new();
     private List<CategoryDto> Categories { get; set; }
     private List<SubcategoryDto> Subcategories { get; set; }
